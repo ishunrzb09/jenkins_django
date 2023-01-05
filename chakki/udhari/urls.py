@@ -3,6 +3,4 @@ from django.urls import include, path
 
 from . import views
 
-urlpatterns = [
-    path("test4/", views.index)
-]
+urlpatterns = [path("test4/", views.index)]
