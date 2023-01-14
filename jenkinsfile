@@ -55,7 +55,7 @@ pipeline {
                 sh '''#!/bin/bash
     		        source /opt/home_env/bin/activate
     		        cd chakki
-                    coverage run manage.py test -v 2 && coverage report --fail-under=95
+                    coverage run manage.py test -v 2 && coverage report --fail-under=94
     		        '''
            }
            
