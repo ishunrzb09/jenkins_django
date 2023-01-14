@@ -1,4 +1,4 @@
-FROM python:3.4
+FROM python:3.8.10
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -6,14 +6,15 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /opt/app
-RUN cd chakki
-
-COPY chakki chakki
-COPY purji purji
-COPY udhari udhari
-COPY requirments.txt requirments.txt
-COPY manage.py manage.py
-RUN pip install -r requirements.txt
+RUN /usr/local/bin/python -m pip install --upgrade pip
+COPY chakki/chakki chakki
+COPY chakki/purji purji
+COPY chakki/udhari udhari
+COPY chakki/requirments.txt requirments.txt
+COPY chakki/manage.py manage.py
+RUN pwd
+RUN cd chakki && ls -lrt
+RUN pip install -r requirments.txt --user
 COPY . .
 
 EXPOSE 8000

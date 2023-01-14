@@ -79,7 +79,19 @@ pipeline {
                 sh '''#!/bin/bash
     		        source /opt/home_env/bin/activate
     		        cd chakki
-    		        docker build -t ishunrzb09/${JOB_NAME}:v_${BUILD_NUMBER}
+    		        docker build -t ishunrzb09/${JOB_NAME}:v_${BUILD_NUMBER} .
+    		        '''
+           }
+           
+        }
+
+        stage('Running Docker Container') {
+	        steps {
+                echo 'Running Docker Container..'
+                sh '''#!/bin/bash
+    		        source /opt/home_env/bin/activate
+    		        cd chakki
+    		        docker run -itd --name chakki_master -p 8085:8000 ishunrzb09/${JOB_NAME}:v_${BUILD_NUMBER} .
     		        '''
            }
            
