@@ -4,7 +4,7 @@ pipeline {
         stage('Git Cloning') {
 	        steps {
                 echo 'Cloning..'
-		        git url: 'https://github.com/ishunrzb09/jenkins_django.git'
+		        git branch: 'dev', url: 'https://github.com/ishunrzb09/jenkins_django.git'
            }
            
         }
@@ -20,15 +20,54 @@ pipeline {
            }
            
         }
-        
-        stage('check formatting') {
+
+        stage('check black') {
 	        steps {
-                echo 'check formatting..'
+                echo 'checking black..'
+                script {
+                    sh '''#!/bin/bash
+    		        source /opt/home_env/bin/activate
+    		        cd chakki
+    		        black --check . --color -v
+    		        '''
+                }
+           }
+           
+        }
+        
+        stage('check isort') {
+	        steps {
+                echo 'checking isort..'
+                script {
+                    sh '''#!/bin/bash
+    		        source /opt/home_env/bin/activate
+    		        cd chakki
+    		        isort --check .
+    		        '''
+                }
+           }
+           
+        }
+
+        stage('check coverage') {
+	        steps {
+                echo 'checking coverage..'
                 sh '''#!/bin/bash
     		        source /opt/home_env/bin/activate
     		        cd chakki
-    		        black --check .
-    		        isort --atomic .
+                    coverage run manage.py test -v 2 && coverage report --fail-under=90
+    		        '''
+           }
+           
+        }
+
+        stage('check Vulnerability') {
+	        steps {
+                echo 'checking Vulnerability..'
+                sh '''#!/bin/bash
+    		        source /opt/home_env/bin/activate
+    		        cd chakki
+    		        safety check --key 66cf49f8-9e05fc27-956e21bf-2ca39b9d
     		        '''
            }
            
