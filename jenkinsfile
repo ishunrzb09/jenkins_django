@@ -42,7 +42,7 @@ pipeline {
                     sh '''#!/bin/bash
     		        source /opt/home_env/bin/activate
     		        cd chakki
-    		        isort --atomic .
+    		        isort --check .
     		        '''
                 }
            }
