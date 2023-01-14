@@ -24,6 +24,7 @@ pipeline {
         stage('check black') {
 	        steps {
                 echo 'checking black..'
+                echo '%GIT_BRANCH%'
                 script {
                     sh '''#!/bin/bash
     		        source /opt/home_env/bin/activate
