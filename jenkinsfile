@@ -29,6 +29,7 @@ pipeline {
     		        cd chakki
     		        black --check .
     		        isort --atomic .
+                    coverage run manage.py test -v 2 && coverage report
     		        safety check --key 66cf49f8-9e05fc27-956e21bf-2ca39b9d
     		        '''
            }
