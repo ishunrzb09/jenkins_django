@@ -4,7 +4,7 @@ pipeline {
         stage('Git Cloning') {
 	        steps {
                 echo 'Cloning..'
-		        git branch: 'dev', url: 'https://github.com/ishunrzb09/jenkins_django.git'
+		        git branch: 'master', url: 'https://github.com/ishunrzb09/jenkins_django.git'
            }
            
         }
@@ -77,6 +77,7 @@ pipeline {
 	        steps {
                 echo 'building Docker image..'
                 sh '''#!/bin/bash
+                    sudo su -
     		        source /opt/home_env/bin/activate
     		        docker build -t ishunrzb09/${JOB_NAME}:v_${BUILD_NUMBER} .
     		        '''
@@ -88,6 +89,7 @@ pipeline {
 	        steps {
                 echo 'Running Docker Container..'
                 sh '''#!/bin/bash
+                    sudo su -
     		        source /opt/home_env/bin/activate
     		        docker run -itd --name chakki_master -p 8085:8000 ishunrzb09/${JOB_NAME}:v_${BUILD_NUMBER} .
     		        '''
