@@ -84,12 +84,24 @@ pipeline {
            
         }
 
+        stage('Stopping old Container') {
+	        steps {
+                echo 'building Docker image..'
+                sh '''#!/bin/bash
+    		        source /opt/home_env/bin/activate
+    		        sudo docker stop chakki_master
+                    sudo docker rm -f chakki_master
+    		        '''
+           }
+           
+        }
+
         stage('Running Docker Container') {
 	        steps {
                 echo 'Running Docker Container..'
                 sh '''#!/bin/bash
     		        source /opt/home_env/bin/activate
-    		        sudo docker run -itd --name chakki_master -p 8085:8000 ishunrzb09/${JOB_NAME}:v_${BUILD_NUMBER} .
+    		        sudo docker run -itd --name chakki_master -p 8085:8000 ishunrzb09/${JOB_NAME}:v_${BUILD_NUMBER}
     		        '''
            }
            
