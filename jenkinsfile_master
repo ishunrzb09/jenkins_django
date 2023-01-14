@@ -4,7 +4,7 @@ pipeline {
         stage('Git Cloning') {
 	        steps {
                 echo 'Cloning..'
-		        git branch: 'dev', url: 'https://github.com/ishunrzb09/jenkins_django.git'
+		        git branch: 'master', url: 'https://github.com/ishunrzb09/jenkins_django.git'
            }
            
         }
