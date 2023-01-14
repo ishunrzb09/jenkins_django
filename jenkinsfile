@@ -20,16 +20,29 @@ pipeline {
            }
            
         }
-        
-        stage('check formatting') {
+
+        stage('check black') {
 	        steps {
-                echo 'checking formatting..'
+                echo 'checking black..'
                 script {
                     sh '''#!/bin/bash
     		        source /opt/home_env/bin/activate
     		        cd chakki
-    		        black --check . -h
-    		        isort --atomic . --format-error --gitignore
+    		        black --check . --color -v
+    		        '''
+                }
+           }
+           
+        }
+        
+        stage('check isort') {
+	        steps {
+                echo 'checking isort..'
+                script {
+                    sh '''#!/bin/bash
+    		        source /opt/home_env/bin/activate
+    		        cd chakki
+    		        isort --atomic .
     		        '''
                 }
            }
