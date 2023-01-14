@@ -4,8 +4,13 @@ pipeline {
         stage('Git Cloning') {
 	        steps {
                 echo 'Cloning..'
-		        def gitvar = git branch: 'dev', url: 'https://github.com/ishunrzb09/jenkins_django.git'
-                echo $github
+		        git branch: 'dev', url: 'https://github.com/ishunrzb09/jenkins_django.git'
+                def scmVars = checkout([
+                    $class: 'GitSCM',
+                    ...
+                ])
+                echo "scmVars.GIT_COMMIT"
+                echo "${scmVars.GIT_COMMIT}"
            }
            
         }
