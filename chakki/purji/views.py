@@ -1,7 +1,8 @@
 import email
 
-from django.shortcuts import HttpResponse, render
-
+from django.shortcuts import HttpResponse
+from django.shortcuts import HttpResponseRedirect
+from django.shortcuts import render
 # Create your views here.
 
 
