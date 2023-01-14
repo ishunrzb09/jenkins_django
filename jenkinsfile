@@ -28,8 +28,8 @@ pipeline {
                     sh '''#!/bin/bash
     		        source /opt/home_env/bin/activate
     		        cd chakki
-    		        black --check . --exit-zero
-    		        isort --atomic . --exit-zero
+    		        black --check . -h
+    		        isort --atomic . --format-error --gitignore
     		        '''
                 }
            }
