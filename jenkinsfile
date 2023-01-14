@@ -4,7 +4,8 @@ pipeline {
         stage('Git Cloning') {
 	        steps {
                 echo 'Cloning..'
-		        git branch: 'dev', url: 'https://github.com/ishunrzb09/jenkins_django.git'
+		        def gitvar = git branch: 'dev', url: 'https://github.com/ishunrzb09/jenkins_django.git'
+                echo $github
            }
            
         }
@@ -24,7 +25,6 @@ pipeline {
         stage('check black') {
 	        steps {
                 echo 'checking black..'
-                echo %GIT_BRANCH%
                 script {
                     sh '''#!/bin/bash
     		        source /opt/home_env/bin/activate
