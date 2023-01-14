@@ -4,7 +4,7 @@ pipeline {
         stage('Git Cloning') {
 	        steps {
                 echo 'Cloning..'
-		        git branch: 'dev', url: 'https://github.com/ishunrzb09/jenkins_django.git'
+		        git branch: 'master', url: 'https://github.com/ishunrzb09/jenkins_django.git'
            }
            
         }
@@ -68,6 +68,30 @@ pipeline {
     		        source /opt/home_env/bin/activate
     		        cd chakki
     		        safety check --key 66cf49f8-9e05fc27-956e21bf-2ca39b9d
+    		        '''
+           }
+           
+        }
+
+        stage('building Docker image') {
+	        steps {
+                echo 'building Docker image..'
+                sh '''#!/bin/bash
+                    sudo su -
+    		        source /opt/home_env/bin/activate
+    		        docker build -t ishunrzb09/${JOB_NAME}:v_${BUILD_NUMBER} .
+    		        '''
+           }
+           
+        }
+
+        stage('Running Docker Container') {
+	        steps {
+                echo 'Running Docker Container..'
+                sh '''#!/bin/bash
+                    sudo su -
+    		        source /opt/home_env/bin/activate
+    		        docker run -itd --name chakki_master -p 8085:8000 ishunrzb09/${JOB_NAME}:v_${BUILD_NUMBER} .
     		        '''
            }
            
