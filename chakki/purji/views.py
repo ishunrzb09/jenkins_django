@@ -6,4 +6,4 @@ from django.shortcuts import HttpResponse
 
 
 def index(request):
-    return HttpResponse("purji url1")
+    return HttpResponse("ishu bhai")
