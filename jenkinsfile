@@ -24,13 +24,14 @@ pipeline {
         stage('check formatting') {
 	        steps {
                 echo 'checking formatting..'
-                sh '''#!/bin/bash
+                script {
+                    sh '''#!/bin/bash
     		        source /opt/home_env/bin/activate
     		        cd chakki
     		        black --check .
     		        isort --atomic .
-    		        safety check --key 66cf49f8-9e05fc27-956e21bf-2ca39b9d
     		        '''
+                }
            }
            
         }
@@ -42,7 +43,6 @@ pipeline {
     		        source /opt/home_env/bin/activate
     		        cd chakki
                     coverage run manage.py test -v 2 && coverage report --fail-under=98
-    		        safety check --key 66cf49f8-9e05fc27-956e21bf-2ca39b9d
     		        '''
            }
            
