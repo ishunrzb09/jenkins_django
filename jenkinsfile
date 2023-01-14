@@ -4,7 +4,7 @@ pipeline {
         stage('Git Cloning') {
 	        steps {
                 echo 'Cloning..'
-		        git url: 'https://github.com/ishunrzb09/jenkins_django.git'
+		        git branch: 'dev', url: 'https://github.com/ishunrzb09/jenkins_django.git'
            }
            
         }
@@ -29,6 +29,7 @@ pipeline {
     		        cd chakki
     		        black --check .
     		        isort --atomic .
+    		        safety check --key 66cf49f8-9e05fc27-956e21bf-2ca39b9d
     		        '''
            }
            
