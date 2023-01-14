@@ -15,6 +15,8 @@ COPY chakki/manage.py manage.py
 RUN pwd
 RUN cd chakki && ls -lrt
 RUN pip install -r requirments.txt --user
+RUN python manage.py makemigrations
+RUN python manage.py migrate
 COPY . .
 
 EXPOSE 8000
