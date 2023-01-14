@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+    stages {
+        stage('Git Cloning') {
+	        steps {
+                echo 'Cloning..'
+		        git url: 'https://github.com/ishunrzb09/jenkins_django.git'
+           }
+           
+        }
+        
+        stage('Installing Requirment') {
+	        steps {
+                echo 'Installing Requirment..'
+		        sh '''#!/bin/bash
+		        source /opt/home_env/bin/activate
+		        cd chakki
+		        pip install -r requirments.txt
+		        '''
+           }
+           
+        }
+        
+        stage('check formatting') {
+	        steps {
+                echo 'check formatting..'
+                sh '''#!/bin/bash
+    		        source /opt/home_env/bin/activate
+    		        cd chakki
+    		        black --check .
+    		        isort --atomic .
+    		        '''
+           }
+           
+        }
+        
+        
+    }
+}
