@@ -76,6 +76,7 @@ pipeline {
         stage('building Docker image') {
 	        steps {
                 echo 'building Docker image..'
+                sh '$DB_NAME_HOME'
                 sh '''#!/bin/bash
     		        source /opt/home_env/bin/activate
     		        sudo docker build -t ishunrzb09/${JOB_NAME}:v_${BUILD_NUMBER} .
