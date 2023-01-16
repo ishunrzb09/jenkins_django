@@ -4,6 +4,9 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     postgresql-client \
     && rm -rf /var/lib/apt/lists/*
+RUN apt install python3-dev build-essential -y \
+    && apt install libssl1.1 -y && apt install libssl1.1=1.1.1f-1ubuntu2 -y\
+    && apt install libssl-dev -y && apt install libmysqlclient-dev -y
 
 WORKDIR /opt/app
 RUN /usr/local/bin/python -m pip install --upgrade pip
