@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -54,10 +55,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "chakki.urls"
 
+TEMPLATES_DIR = os.path.join(BASE_DIR,"templates")
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [TEMPLATES_DIR],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -76,7 +79,19 @@ WSGI_APPLICATION = "chakki.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
+if all([os.environ.get('DB_NAME_HOME'),os.environ.get("DB_USERNAME_HOME"),os.environ.get("DB_PASSWORD_HOME"),os.environ.get("DB_HOSTNAME_HOME")]):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': os.environ.get('DB_NAME_HOME'),
+            'USER': os.environ.get("DB_USERNAME_HOME"),
+            'PASSWORD': os.environ.get("DB_PASSWORD_HOME"),
+            'HOST': os.environ.get("DB_HOSTNAME_HOME"),
+            'PORT': '3306',
+        }
+    }
+else:
+    DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",

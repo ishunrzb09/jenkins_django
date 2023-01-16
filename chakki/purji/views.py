@@ -1,9 +1,13 @@
 import email
 
-from django.shortcuts import HttpResponse
+from django.shortcuts import HttpResponse, render
 
 # Create your views here.
 
 
 def index(request):
-    return HttpResponse("ishu bhai")
+    context = {
+        "name":"Ghonga",
+        "mobile":"123"
+    }
+    return render(request,"purji/index.html",context)
