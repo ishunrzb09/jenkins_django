@@ -89,8 +89,8 @@ pipeline {
                 echo 'building Docker image..'
                 sh """#!/bin/bash
     		        source /opt/home_env/bin/activate
-    		        sudo docker stop chakki_master
-                    sudo docker rm -f chakki_master
+    		        sudo docker stop chakki_dev
+                  sudo docker rm -f chakki_dev
     		        """
            }
            
@@ -101,13 +101,13 @@ pipeline {
                 echo 'Running Docker Container..'
                 sh """#!/bin/bash
     		        source /opt/home_env/bin/activate
-    		        sudo docker run -itd --name chakki_master \
+    		        sudo docker run -itd --name chakki_dev \
                  --env DB_NAME_HOME=${env.DB_NAME_HOME_DEV} \
                  --env DB_USERNAME_HOME=${env.DB_USERNAME_HOME} \
                  --env DB_PASSWORD_HOME=${env.DB_PASSWORD_HOME} \
                  --env DB_HOSTNAME_HOME=${env.DB_HOSTNAME_HOME} \
                  --env DB_PORT_HOME=${env.DB_PORT_HOME} \
-                 -p 9999:8000 ishunrzb09/${JOB_NAME}:v_${BUILD_NUMBER}
+                 -p 9595:8000 ishunrzb09/${JOB_NAME}:v_${BUILD_NUMBER}
     		        """
            }
            
