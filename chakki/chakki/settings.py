@@ -84,10 +84,10 @@ print(
 
 if all(
     [
-        os.environ.get("DB_NAME_HOME", None),
-        os.environ.get("DB_USERNAME_HOME", None),
-        os.environ.get("DB_PASSWORD_HOME", None),
-        os.environ.get("DB_HOSTNAME_HOME", None),
+        os.environ.get("DB_NAME_HOME"),
+        os.environ.get("DB_USERNAME_HOME"),
+        os.environ.get("DB_PASSWORD_HOME"),
+        os.environ.get("DB_HOSTNAME_HOME"),
     ]
 ):
     DATABASES = {
