@@ -5,7 +5,6 @@ RUN apt-get update \
     postgresql-client \
     && rm -rf /var/lib/apt/lists/*
 
-ARG DB_NAME_HOME_ARG DB_USERNAME_HOME_ARG DB_PASSWORD_HOME_ARG DB_HOSTNAME_HOME_ARG DB_PORT_HOME_ARG
 WORKDIR /opt/app
 RUN /usr/local/bin/python -m pip install --upgrade pip
 COPY chakki/chakki chakki
@@ -13,10 +12,6 @@ COPY chakki/purji purji
 COPY chakki/udhari udhari
 COPY chakki/requirments.txt requirments.txt
 COPY chakki/manage.py manage.py
-ENV DB_NAME_HOME $DB_NAME_HOME_ARG
-ENV DB_USERNAME_HOME $DB_USERNAME_HOME_ARG
-ENV DB_PASSWORD_HOME $DB_PASSWORD_HOME_ARG
-ENV DB_HOSTNAME_HOME $DB_HOSTNAME_HOME_ARG
 ENV DB_PORT_HOME $DB_PORT_HOME_ARG
 RUN pip install -r requirments.txt --user
 RUN python manage.py makemigrations
