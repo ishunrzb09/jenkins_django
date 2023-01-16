@@ -55,7 +55,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "chakki.urls"
 
-TEMPLATES_DIR = os.path.join(BASE_DIR,"templates")
+TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")
 
 TEMPLATES = [
     {
@@ -79,24 +79,31 @@ WSGI_APPLICATION = "chakki.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-if all([os.environ.get('DB_NAME_HOME'),os.environ.get("DB_USERNAME_HOME"),os.environ.get("DB_PASSWORD_HOME"),os.environ.get("DB_HOSTNAME_HOME")]):
+if all(
+    [
+        os.environ.get("DB_NAME_HOME"),
+        os.environ.get("DB_USERNAME_HOME"),
+        os.environ.get("DB_PASSWORD_HOME"),
+        os.environ.get("DB_HOSTNAME_HOME"),
+    ]
+):
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': os.environ.get('DB_NAME_HOME'),
-            'USER': os.environ.get("DB_USERNAME_HOME"),
-            'PASSWORD': os.environ.get("DB_PASSWORD_HOME"),
-            'HOST': os.environ.get("DB_HOSTNAME_HOME"),
-            'PORT': '3306',
+        "default": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": os.environ.get("DB_NAME_HOME"),
+            "USER": os.environ.get("DB_USERNAME_HOME"),
+            "PASSWORD": os.environ.get("DB_PASSWORD_HOME"),
+            "HOST": os.environ.get("DB_HOSTNAME_HOME"),
+            "PORT": "3306",
         }
     }
 else:
     DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
-}
 
 
 # Password validation
