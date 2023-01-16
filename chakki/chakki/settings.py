@@ -78,13 +78,16 @@ WSGI_APPLICATION = "chakki.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
+print(
+    os.environ.get("DB_NAME_HOME"),
+)
 
 if all(
     [
-        os.environ.get("DB_NAME_HOME"),
-        os.environ.get("DB_USERNAME_HOME"),
-        os.environ.get("DB_PASSWORD_HOME"),
-        os.environ.get("DB_HOSTNAME_HOME"),
+        os.environ.get("DB_NAME_HOME", None),
+        os.environ.get("DB_USERNAME_HOME", None),
+        os.environ.get("DB_PASSWORD_HOME", None),
+        os.environ.get("DB_HOSTNAME_HOME", None),
     ]
 ):
     DATABASES = {
