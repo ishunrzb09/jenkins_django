@@ -88,6 +88,7 @@ if all(
         os.environ.get("DB_USERNAME_HOME"),
         os.environ.get("DB_PASSWORD_HOME"),
         os.environ.get("DB_HOSTNAME_HOME"),
+        os.environ.get("DB_PORT_HOME"),
     ]
 ):
     DATABASES = {
@@ -97,7 +98,7 @@ if all(
             "USER": os.environ.get("DB_USERNAME_HOME"),
             "PASSWORD": os.environ.get("DB_PASSWORD_HOME"),
             "HOST": os.environ.get("DB_HOSTNAME_HOME"),
-            "PORT": "3306",
+            "PORT": os.environ.get("DB_PORT_HOME"),
         }
     }
 else:

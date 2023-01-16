@@ -12,11 +12,11 @@ pipeline {
         stage('Installing Requirment') {
 	        steps {
                 echo 'Installing Requirment..'
-		        sh '''#!/bin/bash
+		        sh """#!/bin/bash
 		        source /opt/home_env/bin/activate
 		        cd chakki
 		        pip install -r requirments.txt
-		        '''
+		        """
            }
            
         }
@@ -25,11 +25,11 @@ pipeline {
 	        steps {
                 echo 'checking black..'
                 script {
-                    sh '''#!/bin/bash
+                    sh """#!/bin/bash
     		        source /opt/home_env/bin/activate
     		        cd chakki
     		        black --check . --color -v
-    		        '''
+    		        """
                 }
            }
            
@@ -39,11 +39,11 @@ pipeline {
 	        steps {
                 echo 'checking isort..'
                 script {
-                    sh '''#!/bin/bash
+                    sh """#!/bin/bash
     		        source /opt/home_env/bin/activate
     		        cd chakki
     		        isort --check .
-    		        '''
+    		        """
                 }
            }
            
@@ -52,11 +52,11 @@ pipeline {
         stage('check coverage') {
 	        steps {
                 echo 'checking coverage..'
-                sh '''#!/bin/bash
+                sh """#!/bin/bash
     		        source /opt/home_env/bin/activate
     		        cd chakki
                     coverage run manage.py test -v 2 && coverage report --fail-under=90
-    		        '''
+    		        """
            }
            
         }
@@ -64,11 +64,11 @@ pipeline {
         stage('check Vulnerability') {
 	        steps {
                 echo 'checking Vulnerability..'
-                sh '''#!/bin/bash
+                sh """#!/bin/bash
     		        source /opt/home_env/bin/activate
     		        cd chakki
     		        safety check --key 66cf49f8-9e05fc27-956e21bf-2ca39b9d
-    		        '''
+    		        """
            }
            
         }
@@ -76,10 +76,10 @@ pipeline {
         stage('building Docker image') {
 	        steps {
                 echo 'building Docker image..'
-                sh '''#!/bin/bash
+                sh """#!/bin/bash
     		        source /opt/home_env/bin/activate
     		        sudo docker build -t ishunrzb09/${JOB_NAME}:v_${BUILD_NUMBER} .
-    		        '''
+    		        """
            }
            
         }
@@ -87,11 +87,11 @@ pipeline {
         stage('Stopping old Container') {
 	        steps {
                 echo 'building Docker image..'
-                sh '''#!/bin/bash
+                sh """#!/bin/bash
     		        source /opt/home_env/bin/activate
     		        sudo docker stop chakki_master
                     sudo docker rm -f chakki_master
-    		        '''
+    		        """
            }
            
         }
@@ -101,7 +101,13 @@ pipeline {
                 echo 'Running Docker Container..'
                 sh """#!/bin/bash
     		        source /opt/home_env/bin/activate
-    		        sudo docker run -itd --name chakki_master --env DB_NAME_HOME=${env.DB_NAME_HOME_DEV} -p 9999:8000 ishunrzb09/${JOB_NAME}:v_${BUILD_NUMBER}
+    		        sudo docker run -itd --name chakki_master --env \
+                 DB_NAME_HOME=${env.DB_NAME_HOME_DEV} \
+                 DB_USERNAME_HOME=${env.DB_USERNAME_HOME} \
+                 DB_PASSWORD_HOME=${env.DB_PASSWORD_HOME} \
+                 DB_HOSTNAME_HOME=${env.DB_HOSTNAME_HOME} \
+                 DB_PORT_HOME=${env.DB_PORT_HOME} \
+                 -p 9999:8000 ishunrzb09/${JOB_NAME}:v_${BUILD_NUMBER}
     		        """
            }
            
