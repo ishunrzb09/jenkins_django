@@ -6,8 +6,5 @@ from django.shortcuts import HttpResponse, render
 
 
 def index(request):
-    context = {
-        "name":"Ghonga",
-        "mobile":"123"
-    }
-    return render(request,"purji/index.html",context)
+    context = {"name": "Ghonga", "mobile": "123"}
+    return render(request, "purji/index.html", context)
