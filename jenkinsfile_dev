@@ -23,7 +23,7 @@ pipeline {
 
         stage('check black') {
 	        steps {
-                echo 'checking black..'
+                echo 'checking black...'
                 script {
                     sh """#!/bin/bash
     		        source /opt/home_env/bin/activate
