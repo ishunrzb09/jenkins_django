@@ -110,9 +110,6 @@ pipeline {
                  -p 9595:8000 ishunrzb09/${JOB_NAME}:v_${BUILD_NUMBER}
     		        """
            }
-           
         }
-        
-        
     }
 }
