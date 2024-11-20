@@ -1,115 +1,110 @@
 pipeline {
-    agent any
-    stages {
-        stage('Git Cloning') {
-	        steps {
-                echo 'Cloning..'
-		        git branch: 'dev', url: 'https://github.com/ishunrzb09/jenkins_django.git'
-           }
-           
-        }
-        
-        stage('Installing Requirment') {
-	        steps {
-                echo 'Installing Requirment..'
-		        sh """#!/bin/bash
+  agent any
+  stages {
+    stage('Git Cloning') {
+      steps {
+        echo 'Cloning..'
+        git(branch: 'dev', url: 'https://github.com/ishunrzb09/jenkins_django.git')
+      }
+    }
+
+    stage('Installing Requirment') {
+      steps {
+        echo 'Installing Requirment..'
+        sh '''#!/bin/bash
 		        source /opt/home_env/bin/activate
 		        cd chakki
 		        pip install -r requirments.txt
-		        """
-           }
-           
+		        '''
+      }
+    }
+
+    stage('check black') {
+      steps {
+        echo 'checking black...'
+        script {
+          sh """#!/bin/bash
+          source /opt/home_env/bin/activate
+          cd chakki
+          black --check . --color -v
+          """
         }
 
-        stage('check black') {
-	        steps {
-                echo 'checking black...'
-                script {
-                    sh """#!/bin/bash
-    		        source /opt/home_env/bin/activate
-    		        cd chakki
-    		        black --check . --color -v
-    		        """
-                }
-           }
-           
-        }
-        
-        stage('check isort') {
-	        steps {
-                echo 'checking isort..'
-                script {
-                    sh """#!/bin/bash
-    		        source /opt/home_env/bin/activate
-    		        cd chakki
-    		        isort --check .
-    		        """
-                }
-           }
-           
+      }
+    }
+
+    stage('check isort') {
+      steps {
+        echo 'checking isort..'
+        script {
+          sh """#!/bin/bash
+          source /opt/home_env/bin/activate
+          cd chakki
+          isort --check .
+          """
         }
 
-        stage('check coverage') {
-	        steps {
-                echo 'checking coverage..'
-                sh """#!/bin/bash
+      }
+    }
+
+    stage('check coverage') {
+      steps {
+        echo 'checking coverage..'
+        sh '''#!/bin/bash
     		        source /opt/home_env/bin/activate
     		        cd chakki
                     coverage run manage.py test -v 2 && coverage report --fail-under=90
-    		        """
-           }
-           
-        }
+    		        '''
+      }
+    }
 
-        stage('check Vulnerability') {
-	        steps {
-                echo 'checking Vulnerability..'
-                sh """#!/bin/bash
+    stage('check Vulnerability') {
+      steps {
+        echo 'checking Vulnerability..'
+        sh '''#!/bin/bash
     		        source /opt/home_env/bin/activate
     		        cd chakki
     		        safety check --key 66cf49f8-9e05fc27-956e21bf-2ca39b9d
-    		        """
-           }
-           
-        }
+    		        '''
+      }
+    }
 
-        stage('building Docker image') {
-	        steps {
-                echo 'building Docker image..'
-                sh """#!/bin/bash
-    		        source /opt/home_env/bin/activate
-    		        sudo docker build -t ishunrzb09/${JOB_NAME}:v_${BUILD_NUMBER} .
-    		        """
-           }
-           
-        }
+    stage('building Docker image') {
+      steps {
+        echo 'building Docker image..'
+        sh """#!/bin/bash
+            		        source /opt/home_env/bin/activate
+            		        sudo docker build -t ishunrzb09/${JOB_NAME}:v_${BUILD_NUMBER} .
+            		        """
+      }
+    }
 
-        stage('Stopping old Container') {
-	        steps {
-                echo 'building Docker image..'
-                sh """#!/bin/bash
+    stage('Stopping old Container') {
+      steps {
+        echo 'building Docker image..'
+        sh '''#!/bin/bash
     		        source /opt/home_env/bin/activate
     		        sudo docker stop chakki_dev
                   sudo docker rm -f chakki_dev
-    		        """
-           }
-           
-        }
-
-        stage('Running Docker Container') {
-	        steps {
-                echo 'Running Docker Container..'
-                sh """#!/bin/bash
-    		        source /opt/home_env/bin/activate
-    		        sudo docker run -itd --name chakki_dev \
-                 --env DB_NAME_HOME=${env.DB_NAME_HOME_DEV} \
-                 --env DB_USERNAME_HOME=${env.DB_USERNAME_HOME} \
-                 --env DB_PASSWORD_HOME=${env.DB_PASSWORD_HOME} \
-                 --env DB_HOSTNAME_HOME=${env.DB_HOSTNAME_HOME} \
-                 --env DB_PORT_HOME=${env.DB_PORT_HOME} \
-                 -p 9595:8000 ishunrzb09/${JOB_NAME}:v_${BUILD_NUMBER}
-    		        """
-           }
-        }
+    		        '''
+      }
     }
+
+    stage('Running Docker Container') {
+      steps {
+        echo 'Running Docker Container..'
+        sh """#!/bin/bash
+            		        source /opt/home_env/bin/activate
+            		        sudo docker run -itd --name chakki_dev \
+                         --env DB_NAME_HOME=${env.DB_NAME_HOME_DEV} \
+                         --env DB_USERNAME_HOME=${env.DB_USERNAME_HOME} \
+                         --env DB_PASSWORD_HOME=${env.DB_PASSWORD_HOME} \
+                         --env DB_HOSTNAME_HOME=${env.DB_HOSTNAME_HOME} \
+                         --env DB_PORT_HOME=${env.DB_PORT_HOME} \
+                         -p 9595:8000 ishunrzb09/${JOB_NAME}:v_${BUILD_NUMBER}
+            		        """
+      }
+    }
+
+  }
 }
